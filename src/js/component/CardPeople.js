@@ -4,7 +4,7 @@ const CardPeople = (props) => {
 	return (
 		<div className="card" style={{ width: "18rem", flex: "none", margin: "10px" }}>
 			<img
-				src={`https://starwars-visualguide.com/assets/img/characters/${props.uid}.jpg`}
+				src={"https://starwars-visualguide.com/assets/img/characters/" + props.uid + ".jpg"}
 				className="card-img-top"
 				alt={props.item?.name || "Imagen de personaje"}
 			/>

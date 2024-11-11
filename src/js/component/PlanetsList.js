@@ -8,7 +8,7 @@ const PlanetsList = () => {
     return (
         <div className="planets-list" style={{ display: "flex", flexWrap: "wrap" }}>
             {store.planets.map((planet, index) => (
-                <CardPlanets key={index} uid={index + 1} item={planet} />
+                <CardPlanets key={index} uid={planet.uid} item={planet} />
             ))}
         </div>
     );

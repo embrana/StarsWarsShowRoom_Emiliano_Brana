@@ -7,7 +7,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 			characters: [],
 			planets: [],
-			vehicles: []
+			vehicles: [],
+			planets: []
 		},
 		actions: {
 			// Función para cambiar el color de fondo
@@ -42,11 +43,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const res = await fetch("https://www.swapi.tech/api/vehicles");
 					const data = await res.json();
 					setStore({ vehicles: data.results });
+					console.log(data.results)
+				} catch (error) {
+					console.error("Error al cargar veiculos:", error);
+				}
+			},
+			loadPlanets: async () => {
+				try {
+					const res = await fetch("https://www.swapi.tech/api/planets");
+					const data = await res.json();
+					setStore({ planets: data.results });
+					console.log(data.results)
 				} catch (error) {
 					console.error("Error al cargar veiculos:", error);
 				}
 			}
-		}
+		},
+		
 	};
 };
 

@@ -8,7 +8,7 @@ const VehiclesList = () => {
     return (
         <div className="vehicles-list" style={{ display: "flex", flexWrap: "wrap" }}>
             {store.vehicles.map((vehicle, index) => (
-                <CardVehicles key={index} uid={index + 1} item={vehicle} />
+                <CardVehicles key={index} uid={vehicle.uid} item={vehicle} />
             ))}
         </div>
     );
