@@ -8,7 +8,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			characters: [],
 			planets: [],
 			vehicles: [],
-			planets: []
+			planets: [],
+			favorites: []
 		},
 		actions: {
 			// Función para cambiar el color de fondo
@@ -57,7 +58,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.error("Error al cargar veiculos:", error);
 				}
-			}
+			},
+			addFavorite: (item) => {
+                const store = getStore();
+                if (!store.favorites.some(fav => fav.name === item.name)) {
+                    setStore({ favorites: [...store.favorites, item] });
+                }
+			},
+			removeFavorite: (name) => {
+                const store = getStore();
+                const updatedFavorites = store.favorites.filter(fav => fav.name !== name);
+                setStore({ favorites: updatedFavorites });
+            }
 		},
 		
 	};
