@@ -8,11 +8,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			characters: [],
 			planets: [],
 			vehicles: [],
-			planets: [],
-			favorites: []
+			favorites: [],
+			selectedCharacter: null,
+			selectedPlanet: null,
+			selectedVehicle: null
 		},
 		actions: {
-			// Función para cambiar el color de fondo
 			changeColor: (index, color) => {
 				const store = getStore();
 				const demo = store.demo.map((elm, i) => {
@@ -30,23 +31,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error al cargar personajes:", error);
 				}
 			},
-			loadPlanets: async () => {
-				try {
-					const res = await fetch("https://www.swapi.tech/api/planets/");
-					const data = await res.json();
-					setStore({ planets: data.results });
-				} catch (error) {
-					console.error("Error al cargar planetas:", error);
-				}
-			},
 			loadVehicles: async () => {
 				try {
 					const res = await fetch("https://www.swapi.tech/api/vehicles");
 					const data = await res.json();
 					setStore({ vehicles: data.results });
-					console.log(data.results)
 				} catch (error) {
-					console.error("Error al cargar veiculos:", error);
+					console.error("Error al cargar vehículos:", error);
 				}
 			},
 			loadPlanets: async () => {
@@ -54,25 +45,56 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const res = await fetch("https://www.swapi.tech/api/planets");
 					const data = await res.json();
 					setStore({ planets: data.results });
-					console.log(data.results)
 				} catch (error) {
-					console.error("Error al cargar veiculos:", error);
+					console.error("Error al cargar planetas:", error);
 				}
 			},
 			addFavorite: (item) => {
-                const store = getStore();
-                if (!store.favorites.some(fav => fav.name === item.name)) {
-                    setStore({ favorites: [...store.favorites, item] });
-                }
+				const store = getStore();
+				if (!store.favorites.some(fav => fav.name === item.name)) {
+					setStore({ favorites: [...store.favorites, item] });
+				}
 			},
 			removeFavorite: (name) => {
-                const store = getStore();
-                const updatedFavorites = store.favorites.filter(fav => fav.name !== name);
-                setStore({ favorites: updatedFavorites });
-            }
+				const store = getStore();
+				const updatedFavorites = store.favorites.filter(fav => fav.name !== name);
+				setStore({ favorites: updatedFavorites });
+			},
+			getCharacterDetails: async (url) => {
+				try {
+					const res = await fetch(url);
+					const data = await res.json();
+					setStore({ selectedCharacter: data });
+				} catch (error) {
+					console.error("Error al cargar detalles del personaje:", error);
+				}
+			},
+			loadPlanetDetails: async (id) => {
+				try {
+					const res = await fetch(`https://www.swapi.tech/api/planets/${id}`);
+					if (!res.ok) {
+						throw new Error(`Error en la respuesta de la API: ${res.status} ${res.statusText}`);
+					}
+					const data = await res.json();
+					setStore({ selectedPlanet: data.result.properties });
+				} catch (error) {
+					console.error("Error al cargar detalles del planeta:", error.message);
+					setStore({ selectedPlanet: null }); 
+				}
+			},
+			getVehicleDetails: async (id) => { 
+                try {
+                    const res = await fetch(`https://www.swapi.tech/api/vehicles/${id}`);
+                    const data = await res.json();
+                    setStore({ selectedVehicle: data.result.properties });
+                } catch (error) {
+                    console.error("Error al cargar detalles del vehículo:", error);
+                    setStore({ selectedVehicle: null });
+                }
+            },
 		},
-		
 	};
 };
 
 export default getState;
+

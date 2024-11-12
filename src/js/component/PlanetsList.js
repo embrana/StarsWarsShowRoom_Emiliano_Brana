@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import CardPlanets from "./CardPlanets";
 
 const PlanetsList = () => {
-    const { store } = useContext(Context);
+    const { store, actions } = useContext(Context);
+
+    useEffect(() => {
+        actions.loadPlanets();
+    }, [actions]);
 
     return (
         <div className="planets-list" style={{ display: "flex", flexWrap: "wrap" }}>
@@ -15,3 +19,4 @@ const PlanetsList = () => {
 };
 
 export default PlanetsList;
+
